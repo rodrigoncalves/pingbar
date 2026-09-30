@@ -89,7 +89,10 @@ final class App: NSObject, NSApplicationDelegate {
             p.standardOutput = pipe
             p.standardError = FileHandle.nullDevice
             try? p.run()
+            // close both ends explicitly: leaked pipes hit the fd limit after ~2h and every ping then "timed out"
+            try? pipe.fileHandleForWriting.close()
             let out = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
+            try? pipe.fileHandleForReading.close()
             var ms: Double? = nil
             if let r = out.range(of: #"time=[0-9.]+"#, options: .regularExpression) {
                 ms = Double(out[r].dropFirst(5))
