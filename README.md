@@ -29,3 +29,6 @@ The menu is in English or Portuguese (pt-BR). Default follows the system languag
 ## Configuration
 
 Change `host` at the top of `pingbar.swift` to ping something else, then rebuild.
+
+<img width="145" height="24" alt="image" src="https://github.com/user-attachments/assets/8ed16832-09ec-495c-9a9e-e7a7f51ac36e" />
+
