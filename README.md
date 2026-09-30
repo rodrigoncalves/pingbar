@@ -6,19 +6,20 @@ macOS menu bar app that graphs ping latency to 8.8.8.8. Single Swift file, no de
 - Bar color: green < 60ms, orange < 100ms, red ≥ 100ms. Timeouts show as a full red bar and `✕`.
 - Graph scale is 100ms, or the highest spike in the window if larger.
 
-## Build and run
+## Build and install
 
 ```bash
-swiftc -O pingbar.swift -o pingbar
-./pingbar
+./build.sh
 ```
 
-Requires the Xcode command line tools (`xcode-select --install`).
+Builds `~/Applications/PingBar.app` (ad-hoc signed, no Dock icon), so it shows up in Spotlight: press ⌘Space, type "PingBar". Requires the Xcode command line tools (`xcode-select --install`).
+
+Without the bundle: `swiftc -O pingbar.swift -o pingbar && ./pingbar`.
 
 ## Menu
 
 - **Size**: graph width, 30s / 60s (default) / 120s / 240s. Saved in `UserDefaults`.
-- **Launch at login**: writes/removes `~/Library/LaunchAgents/local.pingbar.plist` (`RunAtLoad`). Takes effect at next login. The plist stores the binary's path, so put the binary somewhere permanent first (e.g. `~/apps/pingbar/`).
+- **Launch at login**: writes/removes `~/Library/LaunchAgents/local.pingbar.plist` (`RunAtLoad`). Takes effect at next login. The plist stores the binary's path, so use the installed `PingBar.app` rather than a throwaway build.
 - **Language**: System / English / Português. Saved in `UserDefaults`.
 - **Quit**
 
