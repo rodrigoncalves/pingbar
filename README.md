@@ -17,8 +17,8 @@ Requires the Xcode command line tools (`xcode-select --install`).
 
 ## Menu
 
-- **Tamanho**: graph width, 30s / 60s (default) / 120s / 240s. Saved in `UserDefaults`.
-- **Iniciar no login**: writes/removes `~/Library/LaunchAgents/local.pingbar.plist` (`RunAtLoad`). Takes effect at next login. The plist stores the binary's path, so put the binary somewhere permanent first (e.g. `~/apps/pingbar/`).
+- **Size**: graph width, 30s / 60s (default) / 120s / 240s. Saved in `UserDefaults`.
+- **Launch at login**: writes/removes `~/Library/LaunchAgents/local.pingbar.plist` (`RunAtLoad`). Takes effect at next login. The plist stores the binary's path, so put the binary somewhere permanent first (e.g. `~/apps/pingbar/`).
 - **Quit**
 
 ## Configuration

@@ -10,9 +10,9 @@ final class App: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_: Notification) {
         let m = NSMenu()
-        let size = NSMenuItem(title: "Tamanho", action: nil, keyEquivalent: "")
+        let size = NSMenuItem(title: "Size", action: nil, keyEquivalent: "")
         let sub = NSMenu()
-        for (name, n) in [("Pequeno (30s)", 30), ("Médio (60s)", 60), ("Grande (120s)", 120), ("Extra (240s)", 240)] {
+        for (name, n) in [("Small (30s)", 30), ("Medium (60s)", 60), ("Large (120s)", 120), ("Extra large (240s)", 240)] {
             let it = NSMenuItem(title: name, action: #selector(setSize(_:)), keyEquivalent: "")
             it.target = self
             it.tag = n
@@ -21,7 +21,7 @@ final class App: NSObject, NSApplicationDelegate {
         }
         size.submenu = sub
         m.addItem(size)
-        let login = NSMenuItem(title: "Iniciar no login", action: #selector(toggleLogin(_:)), keyEquivalent: "")
+        let login = NSMenuItem(title: "Launch at login", action: #selector(toggleLogin(_:)), keyEquivalent: "")
         login.target = self
         login.state = FileManager.default.fileExists(atPath: plist.path) ? .on : .off
         m.addItem(login)
