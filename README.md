@@ -19,11 +19,12 @@ Requires the Xcode command line tools (`xcode-select --install`).
 
 - **Size**: graph width, 30s / 60s (default) / 120s / 240s. Saved in `UserDefaults`.
 - **Launch at login**: writes/removes `~/Library/LaunchAgents/local.pingbar.plist` (`RunAtLoad`). Takes effect at next login. The plist stores the binary's path, so put the binary somewhere permanent first (e.g. `~/apps/pingbar/`).
+- **Language**: System / English / Português. Saved in `UserDefaults`.
 - **Quit**
 
 ## Language
 
-The menu is in English or Portuguese (pt-BR), chosen automatically from the system language.
+The menu is in English or Portuguese (pt-BR). Default follows the system language; override it in the **Language** menu.
 
 ## Configuration
 

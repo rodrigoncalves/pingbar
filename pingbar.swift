@@ -3,7 +3,8 @@ import Cocoa
 // Menu bar ping graph for 8.8.8.8. Build: swiftc -O pingbar.swift -o pingbar
 let host = "8.8.8.8"
 // ponytail: en/pt-BR picked from system language; add a language = add a case, or move to .lproj if it grows.
-let pt = Locale.preferredLanguages.first?.hasPrefix("pt") ?? false
+var lang = UserDefaults.standard.integer(forKey: "lang")  // 0 = system, 1 = English, 2 = Português
+var pt: Bool { lang == 2 || (lang == 0 && (Locale.preferredLanguages.first?.hasPrefix("pt") ?? false)) }
 func t(_ en: String, _ ptBR: String) -> String { pt ? ptBR : en }
 var N = UserDefaults.standard.integer(forKey: "N") == 0 ? 60 : UserDefaults.standard.integer(forKey: "N")  // samples shown (1 per second) = graph width
 
@@ -12,6 +13,13 @@ final class App: NSObject, NSApplicationDelegate {
     var samples: [Double?] = []  // nil = timeout
 
     func applicationDidFinishLaunching(_: Notification) {
+        buildMenu()
+        item.button?.imagePosition = .imageLeft
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in self.tick() }
+        tick()
+    }
+
+    func buildMenu() {
         let m = NSMenu()
         let size = NSMenuItem(title: t("Size", "Tamanho"), action: nil, keyEquivalent: "")
         let sub = NSMenu()
@@ -28,12 +36,26 @@ final class App: NSObject, NSApplicationDelegate {
         login.target = self
         login.state = FileManager.default.fileExists(atPath: plist.path) ? .on : .off
         m.addItem(login)
+        let langItem = NSMenuItem(title: t("Language", "Idioma"), action: nil, keyEquivalent: "")
+        let langMenu = NSMenu()
+        for (name, n) in [(t("System", "Sistema"), 0), ("English", 1), ("Português", 2)] {
+            let it = NSMenuItem(title: name, action: #selector(setLang(_:)), keyEquivalent: "")
+            it.target = self
+            it.tag = n
+            it.state = n == lang ? .on : .off
+            langMenu.addItem(it)
+        }
+        langItem.submenu = langMenu
+        m.addItem(langItem)
         m.addItem(.separator())
         m.addItem(withTitle: t("Quit", "Sair"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         item.menu = m
-        item.button?.imagePosition = .imageLeft
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in self.tick() }
-        tick()
+    }
+
+    @objc func setLang(_ s: NSMenuItem) {
+        lang = s.tag
+        UserDefaults.standard.set(lang, forKey: "lang")
+        buildMenu()
     }
 
     // ponytail: LaunchAgent plist (bare binary, no .app bundle for SMAppService). Path must stay put.
