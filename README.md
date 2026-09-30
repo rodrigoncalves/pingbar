@@ -21,6 +21,10 @@ Requires the Xcode command line tools (`xcode-select --install`).
 - **Launch at login**: writes/removes `~/Library/LaunchAgents/local.pingbar.plist` (`RunAtLoad`). Takes effect at next login. The plist stores the binary's path, so put the binary somewhere permanent first (e.g. `~/apps/pingbar/`).
 - **Quit**
 
+## Language
+
+The menu is in English or Portuguese (pt-BR), chosen automatically from the system language.
+
 ## Configuration
 
 Change `host` at the top of `pingbar.swift` to ping something else, then rebuild.

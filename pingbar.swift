@@ -2,6 +2,9 @@ import Cocoa
 
 // Menu bar ping graph for 8.8.8.8. Build: swiftc -O pingbar.swift -o pingbar
 let host = "8.8.8.8"
+// ponytail: en/pt-BR picked from system language; add a language = add a case, or move to .lproj if it grows.
+let pt = Locale.preferredLanguages.first?.hasPrefix("pt") ?? false
+func t(_ en: String, _ ptBR: String) -> String { pt ? ptBR : en }
 var N = UserDefaults.standard.integer(forKey: "N") == 0 ? 60 : UserDefaults.standard.integer(forKey: "N")  // samples shown (1 per second) = graph width
 
 final class App: NSObject, NSApplicationDelegate {
@@ -10,9 +13,9 @@ final class App: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_: Notification) {
         let m = NSMenu()
-        let size = NSMenuItem(title: "Size", action: nil, keyEquivalent: "")
+        let size = NSMenuItem(title: t("Size", "Tamanho"), action: nil, keyEquivalent: "")
         let sub = NSMenu()
-        for (name, n) in [("Small (30s)", 30), ("Medium (60s)", 60), ("Large (120s)", 120), ("Extra large (240s)", 240)] {
+        for (name, n) in [(t("Small (30s)", "Pequeno (30s)"), 30), (t("Medium (60s)", "Médio (60s)"), 60), (t("Large (120s)", "Grande (120s)"), 120), (t("Extra large (240s)", "Extra (240s)"), 240)] {
             let it = NSMenuItem(title: name, action: #selector(setSize(_:)), keyEquivalent: "")
             it.target = self
             it.tag = n
@@ -21,12 +24,12 @@ final class App: NSObject, NSApplicationDelegate {
         }
         size.submenu = sub
         m.addItem(size)
-        let login = NSMenuItem(title: "Launch at login", action: #selector(toggleLogin(_:)), keyEquivalent: "")
+        let login = NSMenuItem(title: t("Launch at login", "Iniciar no login"), action: #selector(toggleLogin(_:)), keyEquivalent: "")
         login.target = self
         login.state = FileManager.default.fileExists(atPath: plist.path) ? .on : .off
         m.addItem(login)
         m.addItem(.separator())
-        m.addItem(withTitle: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        m.addItem(withTitle: t("Quit", "Sair"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         item.menu = m
         item.button?.imagePosition = .imageLeft
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in self.tick() }
