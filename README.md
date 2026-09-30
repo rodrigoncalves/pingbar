@@ -38,3 +38,7 @@ Change `host` at the top of `pingbar.swift` to ping something else, then rebuild
 ## Uninstall
 
 Quit the app, then delete `~/Applications/PingBar.app` and `~/Library/LaunchAgents/local.pingbar.plist`.
+
+## License
+
+[MIT](LICENSE)
